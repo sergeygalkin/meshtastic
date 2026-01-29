@@ -1,0 +1,26 @@
+[Unit]
+Description=Meshtastic <-> Telegram bot <-> LLM
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=meshtastic
+Group=meshtastic
+WorkingDirectory=/opt/meshtastic-bot/app
+
+EnvironmentFile=-/etc/meshtastic-bot.env
+
+ExecStart=/opt/meshtastic-bot/venv/bin/python /opt/meshtastic-bot/app/meshtastic_bot.py 192.168.0.2
+
+Restart=always
+RestartSec=5
+
+# Немного безопасности
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
